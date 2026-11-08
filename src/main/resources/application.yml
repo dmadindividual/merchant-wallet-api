@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: merchant-wallet
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/merchant_wallet
+    username: wallet
+    password: wallet
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+wallet:
+  nuban:
+    bank-code: "999"
+
+  dynamic-accounts:
+    ttl: PT10M
+    cooldown: PT24H
+    expiry-job-enabled: true
+    expiry-interval: PT30S
+    expiry-batch-size: 500
+
+  simulation:
+    enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    persist-authorization: true
+    tags-sorter: alpha
+    operations-sorter: method
+
+server:
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  pattern:
+    level: "%5p [rid=%X{requestId:-} actor=%X{actor:-}]"

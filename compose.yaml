@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: merchant-wallet-db
+    environment:
+      POSTGRES_DB: merchant_wallet
+      POSTGRES_USER: wallet
+      POSTGRES_PASSWORD: wallet
+    ports:
+      # host:container. 5433 on your machine avoids clashing with any local
+      # Postgres already on 5432. Inside the container it is still 5432.
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wallet -d merchant_wallet"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    container_name: merchant-wallet-app
+    profiles: ["full"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Containers talk over Docker's internal network, so the app uses the
+      # service name and the container port (5432), not the host port.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/merchant_wallet
+      SPRING_DATASOURCE_USERNAME: wallet
+      SPRING_DATASOURCE_PASSWORD: wallet
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
