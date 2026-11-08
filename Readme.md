@@ -1,6 +1,6 @@
 # Merchant Wallet
 
-A merchant wallet system built for the 3Line Senior Backend Engineer assessment. Businesses register, get a NUBAN account, and move money between accounts on a double-entry ledger. On top of the two required features it supports subsidiary accounts with auto-sweep and one-time, time-limited dynamic accounts.
+A merchant wallet system built for high level assessment. Businesses register, get a NUBAN account, and move money between accounts on a double-entry ledger. On top of the two required features it supports subsidiary accounts with auto-sweep and one-time, time-limited dynamic accounts.
 
 **Stack:** Java 21 · Spring Boot 3.4 · PostgreSQL 17 · Flyway · plain JDBC (`JdbcClient`, no JPA) · PL/pgSQL stored functions · Testcontainers · Docker Compose · OpenAPI / Swagger UI
 
